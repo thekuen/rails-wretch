@@ -10,11 +10,11 @@ class User < ApplicationRecord
   #validations
   validates :password, confirmation: true                
   validates :email, presence: true,
-  uniqueness: true,
-  format: {
-  with: URI::MailTo::EMAIL_REGEXP,
-  message: '格式有誤'
-  }
+                    uniqueness: true,
+                    format: {
+                      with: URI::MailTo::EMAIL_REGEXP,
+                      message: '格式有誤'
+                    }
 
   def display_name
     if self.name.present?
@@ -23,9 +23,42 @@ class User < ApplicationRecord
         self.email.split("@").first.capitalize
     end
   end
+
+  # instance methods
+  def toggle_like(record)
+    if liked?(record)
+      unlike!(record) 
+      return false
+    else
+      like!(record)
+      return true
+    end
+  end
       
   def liked?(record)
     liked_articles.include?(record)
+  end
+
+  
+    
+
+  #登入的時候class methods
+  def self.login(email, password)
+    return nil if email.empty? or password.empty?
+    password = "x#{password}y".reverse
+    password = Digest::SHA1.hexdigest(password)
+    find_by(email: email, password: password)
+  end
+
+  
+
+
+   #註冊的時候
+   #因為還抓不到實體變數
+  private
+  def encrypt_password
+    password = "x#{self.password}y".reverse
+    self.password = Digest::SHA1.hexdigest(password)
   end
 
   def unlike!(record)
@@ -35,21 +68,9 @@ class User < ApplicationRecord
   def like!(record)
     liked_articles << record
   end
-  
-  #登入的時候class methods
-   def self.login(email, password)
-    return nil if email.empty? or password.empty?
-    password = "x#{password}y".reverse
-    password = Digest::SHA1.hexdigest(password)
-    find_by(email: email, password: password)
-   end
-   #註冊的時候
-   #因為還抓不到實體變數
-  private
-  def encrypt_password
-    password = "x#{self.password}y".reverse
-    self.password = Digest::SHA1.hexdigest(password)
-  end
+
      
+
+ 
 
 end

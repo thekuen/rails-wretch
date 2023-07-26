@@ -1,17 +1,21 @@
 import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="like"
 export default class extends Controller {
-  static targets = ["likebtn"]
+  static targets = ["likebtn"];
 
+
+  // data-controller掛上去div的時候,connect就發動了
   connect() {    
-    const { id } = this.element.dataset;
+    const { id, liked } = this.element.dataset;
     // console.log(liked);
     this.id = id;
-    // if (liked == "true") {
-    //  this.likebtnTarget.textContent = "已讚";
-    // } else {
-    //  this.likebtnTarget.textContent = "未讚";
-    // }
+
+    // dataset回傳的東西都是字串
+    if (liked == "true") {
+     this.likebtnTarget.textContent = "已經讚";
+    } else {
+     this.likebtnTarget.textContent = "尚未讚";
+    }
   }
   
   toggle(e) {

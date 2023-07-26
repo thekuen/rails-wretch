@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
-    def not_found
+  def not_found
     render file: Rails.root.join('public','404.html'), 
-    status: 404,
-    layout: false
-    end
+           status: 404,
+           layout: false
+  end
 
   rescue_from ActiveRecord::RecordNotFound,with: :not_found
 
@@ -30,12 +30,15 @@ class ApplicationController < ActionController::Base
       
      if @_user_ 
       @_user_ =  @_user_
-     else  @_user_ = User.find_by(id: session[:abcd])       
+     else  
+      @_user_ = User.find_by(id: session[:abcd])       
      end       
     
     else
       nil
     end
   end
+
+
 
 end
