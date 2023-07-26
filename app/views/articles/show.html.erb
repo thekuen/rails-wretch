@@ -1,0 +1,61 @@
+ <div data-controller="hello" 
+       data-action="abc@window->hello#go">  X  </div>
+       <%# 全域接收abc事件的廣播 %>
+
+ <h1>
+  <%= @article.title %>
+ </h1>
+
+
+  <div data-controller="like" 
+                             data-id="<%= @article.id %>">   
+       
+    <a href="#" data-like-target="likebtn" 
+                data-action="click->like#toggle">讚</a>  
+  
+  </div>
+
+
+<article>
+<p><%= @article.content %></p>
+</article>
+
+<hr>
+  
+<h2>留言 <%= Time.now %>   </h2>
+
+<%= form_with(model: @comment, 
+               url: article_comments_path(@article.id)) do |f| %>
+<div>
+  <%= f.label :content, '留言內容' %>  <br/>
+  <%= f.text_area :content %>
+</div>
+<%= f.submit '新增留言'%>
+
+<% end %>
+
+
+
+
+  <ul id="comment_list">
+   <%= render partial: 'articles/comment',
+              collection: @comments %>
+
+
+
+    <%#= @comments.each do |comment|%>
+    <%#= render'comment', comment: comment %> 
+    <%# end %>   
+  </ul>
+  <hr>
+
+
+
+
+
+
+
+
+
+
+

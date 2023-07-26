@@ -1,0 +1,30 @@
+<h1>文章列表</h1>
+
+<%= current_user&.email %>
+
+
+<%= link_to "新增文章",new_article_path %>
+
+
+<ul>
+
+<% @articles.each do |article| %>
+
+<%#= article.title %>
+
+
+<li>
+<%#= link_to article.title,"/articles/#{article.id}" %>
+<%= link_to article.title, article_path(article.id) %>
+
+<%= link_to "更新", edit_article_path(article.id) %>
+
+<%= link_to "刪除", article_path(article.id), 
+                                data: {
+                                turbo_method: 'delete',
+                                turbo_confirm: '確定要刪除?'
+                                } %>
+</li>
+<%end%>
+
+</ul>
